@@ -8,7 +8,8 @@ setup(
     description='SecretStash',
     author='David Bernick',
     author_email='dbernick@gmail.com',
-    install_requires=['django',
+    install_requires=[
+                      'django',
                       'django-guardian',
                       'boto',
                       'django-social-auth',
@@ -17,6 +18,6 @@ setup(
                       'markdown',
                       'django-filter',
                       'south',
-                      'django-debug-toolbar'
+                      'django-debug-toolbar',
                       ],
 )
