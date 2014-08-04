@@ -10,15 +10,16 @@ import random,string
 def id_generator(size=18, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
-#@receiver(post_save, sender=get_user_model())
-#def create_auth_token(sender, instance=None, created=False, **kwargs):
-#    if created:
-#        Token.objects.create(user=instance)
+@receiver(post_save, sender=get_user_model())
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
 
 class Host(models.Model):
     name = models.CharField(max_length=32)
     owner = models.ForeignKey(User)
     apikey = models.ForeignKey(Token,null=True, blank=True)
+    
 
     #save! create user
     def save(self, *args, **kwargs):
@@ -27,7 +28,7 @@ class Host(models.Model):
         else:
             user = User.objects.create_user(self.name, self.name+"@"+"randomhost.com", id_generator())
             self.owner=user
-            token = Token.objects.create(user=user)
+            token = Token.objects.get(user=user)
             self.apikey=token
             super(Host,self).save(*args, **kwargs)
 
