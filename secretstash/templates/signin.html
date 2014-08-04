@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load url from future %}
+
+
+{% block bootstrap3_content %}
+{% if user.is_authenticated %}
+    <p>Welcome, {{ user.username }}. Thanks for logging in.</p>
+{% else %}
+    <p>Welcome, new user. Please log in.</p>
+{% endif %}
+<a href="{% url 'socialauth_begin' 'google-oauth2' %}">Enter using Google OAuth2</a> <BR> 
+<a href="{% url 'socialauth_begin' 'twitter' %}">Enter using Twitter</a> <BR> 
+<a href="{% url 'socialauth_begin' 'facebook' %}">Enter using Facebook</a>
+<P><A HREF="{% url 'logout' %}">Logout</A></P>
+{% endblock %}
+

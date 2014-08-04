@@ -202,7 +202,9 @@ LOCAL_APPS = (
     'guardian',
     'social_auth',
     'rest_framework',
+    'rest_framework.authtoken',    
     'bootstrap3',
+    'secrets'
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -274,3 +276,12 @@ SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 LOGIN_ERROR_URL = '/'
 ANONYMOUS_USER_ID = 1
 ##### END AUTH CONFIG
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication'
+    )
+}
