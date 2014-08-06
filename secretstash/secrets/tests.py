@@ -1,10 +1,33 @@
 from django.contrib.auth.models import User,Group,Permission
-from django.test import TestCase, RequestFactory
+from django.test import TestCase, RequestFactory,Client
+from django.test.client import FakePayload 
 from rest_framework.test import APIRequestFactory
 from rest_framework.test import APIClient
 from rest_framework import status
 import json
+from urlparse import urlparse
 
+BOUNDARY = 'BoUnDaRyStRiNg'
+MULTIPART_CONTENT = 'multipart/form-data; boundary=%s' % BOUNDARY
+
+
+class APIClientPatch(Client): 
+
+    def patch(self, path, data={}, content_type='json', **extra): 
+        "Construct a PATCH request."
+        patch_data = self._encode_data(data, content_type)
+    
+        parsed = urlparse(path)
+        r = {
+            'CONTENT_LENGTH': len(patch_data),
+            'CONTENT_TYPE':   content_type,
+            'PATH_INFO':      self._get_path(parsed),
+            'QUERY_STRING':   parsed[4],
+            'REQUEST_METHOD': 'PATCH',
+            'wsgi.input':     FakePayload(patch_data),
+        }
+        r.update(extra)
+        return self.request(**r)
 
 class SimpleTest(TestCase):
     def setUp(self):
@@ -39,7 +62,7 @@ class SimpleTest(TestCase):
         self.client = APIClient()
         self.client.login(username='randomtestuser', password='top_secret')
 
-        self.adminclient = APIClient()
+        self.adminclient = APIClientPatch()
         self.adminclient.login(username='randomtestadmin', password='top_secret')
 
         self.badclient = APIClient()
@@ -59,12 +82,11 @@ class SimpleTest(TestCase):
         response = self.badclient.get('/secrets/api/secret/%s/' % self.secret_id)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         
-#     def test_patch(self):
-#         response = self.adminclient.patch('/secrets/api/secret/%s/' % self.secret_id,{"groups":["testgroup2"]},format='json')
-#         self.assertEqual(response.status_code, status.HTTP_200_OK)
-# 
-#     def test_patch_get_bad_redux(self):
-#         response = self.badclient.get('/secrets/api/secret/%s/' % self.secret_id)
-#         print self.secret_id
-#         self.assertEqual(response.status_code, status.HTTP_200_OK)
+    def test_patch(self):
+        response = self.adminclient.patch(path=('/secrets/api/secret/%s/' % self.secret_id),data='{"groups":["testgroup2"]}',content_type='application/json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        response = self.badclient.get('/secrets/api/secret/%s/' % self.secret_id)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        response = self.client.get('/secrets/api/secret/%s/' % self.secret_id)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
