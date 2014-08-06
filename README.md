@@ -82,6 +82,11 @@ curl -X GET -H 'Accept: application/json;indent=4'  -u username:password http://
 }
 ```
 
+Adding another group for access to secret:
+```
+curl -v -X PATCH -H 'Accept: application/json;indent=4' -H 'Content-Type:application/json' -u username:password -d '{"groups":["databases"]}' http://127.0.0.1:8000/secrets/api/secret/15/
+```
+
 DevOps
 =============
 Use something like CloudFormation to start up a machine with your SecretStash u/p as parameters in your CF script (or entered at deploytime). Then, during your initial bootstrapping (userdata in CF):
@@ -131,3 +136,9 @@ curl -X GET -H 'Authorization: Token 0fcb68b99bd66737d0b9fb1e23913c202dab56f6' -
     "content": "test2"
 }
 ```
+
+TODO
+============
+
+Encrypted backend by default?  
+Audit trail?
