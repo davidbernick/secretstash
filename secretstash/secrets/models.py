@@ -20,7 +20,6 @@ class Host(models.Model):
     owner = models.ForeignKey(User)
     apikey = models.ForeignKey(Token,null=True, blank=True)
     
-
     #save! create user
     def save(self, *args, **kwargs):
         if self.pk is not None:
@@ -41,12 +40,13 @@ class Host(models.Model):
         )
 
 class Secret(models.Model):
+    name = models.CharField(max_length=100,blank=True,null=True,unique=True)
+    description = models.CharField(max_length=100,blank=True,null=True)
     content = models.TextField()
     owner = models.ForeignKey(User)
 
     def __unicode__(self):
-        return "%s (%s)" % (self.content)
-
+        return "%s" % (self.name)
 
     class Meta:
         permissions = (

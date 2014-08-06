@@ -15,6 +15,7 @@ setup(
                       'django-social-auth',
                       'django-bootstrap3',
                       'djangorestframework',
+                      'drf-compound-fields',
                       'markdown',
                       'django-filter',
                       'south',
