@@ -1,0 +1,18 @@
+{% load bootstrap3 %}
+{% load activetab %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery=1%}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+
+
+    
+<title>{% block title %}Djangotest{% endblock %}</title>
+<ul class="nav nav-tabs">
+  <li class="{% active_page request 'welcome' %}"><a href="{%url 'welcome' %}">Home</a></li>	
+</ul>
+{% block bootstrap3_content %}
+{% endblock %}
