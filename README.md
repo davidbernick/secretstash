@@ -1,12 +1,15 @@
 secretstash
 ===========
 
-An application and API for stashing credentials -- Mostly for devops usage  
+An application and API for stashing credentials -- Mostly for devops usage.  
+
+Putting credentials, secrets and more in code and in github is bad. So run your own server that let's multiple levels of users and hosts have access to only what they need.  
 
 
 Setup
 =========
-Run this as a normal Django application. Change secretstash/settings for settings that suit your environments. Chef/Ansible recipes coming for autoconfig.  
+Run this as a normal Django application. Change secretstash/settings for settings that suit your environments.  Please put this behing nginx/apache for SSL termination.   
+
 
 ```
 python manage.py syncdb --noinput --settings secretstash.settings.local
@@ -141,4 +144,7 @@ TODO
 ============
 
 Encrypted backend by default?  
-Audit trail?
+Audit trail?  
+Chef cookbook for setup  
+Ansible playbook for setup  
+Library for ease-of-use
