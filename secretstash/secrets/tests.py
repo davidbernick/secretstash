@@ -58,12 +58,18 @@ class SimpleTest(TestCase):
         
         permission = Permission.objects.get(codename='add_host')
         self.admingroup.permissions.add(permission)
+        permission = Permission.objects.get(codename='change_host')
+        self.admingroup.permissions.add(permission)
 
         self.client = APIClient()
         self.client.login(username='randomtestuser', password='top_secret')
 
         self.adminclient = APIClientPatch()
         self.adminclient.login(username='randomtestadmin', password='top_secret')
+
+        self.adminclient2 = APIClient()
+        self.adminclient2.login(username='randomtestadmin', password='top_secret')
+
 
         self.badclient = APIClient()
         self.badclient.login(username='badtestuser', password='top_secret')
@@ -89,4 +95,23 @@ class SimpleTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         response = self.client.get('/secrets/api/secret/%s/' % self.secret_id)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_host(self):
+        response = self.adminclient2.post('/secrets/api/host/',{"name":"randomhostname"},format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertContains(response, "apikey", status_code=201)
+        self.assertContains(response, "randomhostname", status_code=201)
+        
+        key = json.loads(response.content)["apikey"]["key"]
+
+        response = self.adminclient2.put('/secrets/usergroup/randomhostname/',{"groups":["testgroup"],"action":"add"},format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        
+        tmpclient = APIClient()
+        tmpclient.credentials(HTTP_AUTHORIZATION='Token ' + key)
+        
+        response = tmpclient.get('/secrets/api/secret/%s/' % self.secret_id)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        
+
 
