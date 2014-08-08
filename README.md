@@ -7,6 +7,8 @@ Putting credentials, secrets and more in code and in github is bad. So run your 
 
 Using SecretStash, the only credential you'll need is what's in your head -- a username and password to the secretstash system. That u/p does not have to be stored anywhere. You can enter it at "deploytime" in CloudFormation or Heat scripts using their parameter functions. Your bootstrapping scripts can call those parameters and the machine gets it's own temporary SecretStash key to access secrets.  
 
+But what about Databags or Hiera or Ansible Vault? Yes, but you have to use ONLY chef or ONLY puppet or ONLY ansible to use those things. If you have a heterogeneous environment, you want something that's universally compatible. Hence an API/Service for this.
+
 
 Setup
 =========
