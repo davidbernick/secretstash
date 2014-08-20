@@ -3,7 +3,11 @@ secretstash
 
 An application and API for stashing credentials -- Mostly for devops usage.  
 
-Putting credentials, secrets and more in code and in github is bad. So run your own server that let's multiple levels of users and hosts have access to only what they need.  
+Putting credentials, secrets and more in code and in github is bad. So run your own server that let's multiple levels of users and hosts have access to only what they need. 
+
+Using SecretStash, the only credential you'll need is what's in your head -- a username and password to the secretstash system. That u/p does not have to be stored anywhere. You can enter it at "deploytime" in CloudFormation or Heat scripts using their parameter functions. Your bootstrapping scripts can call those parameters and the machine gets it's own temporary SecretStash key to access secrets.  
+
+But what about Databags or Hiera or Ansible Vault? Yes, but you have to use ONLY chef or ONLY puppet or ONLY ansible to use those things. If you have a heterogeneous environment, you want something that's universally compatible. Hence an API/Service for this.
 
 
 Setup
@@ -90,7 +94,7 @@ Adding another group for access to secret:
 curl -v -X PATCH -H 'Accept: application/json;indent=4' -H 'Content-Type:application/json' -u username:password -d '{"groups":["databases"]}' http://127.0.0.1:8000/secrets/api/secret/15/
 ```
 
-DevOps
+DevOps (using in the field)
 =============
 Use something like CloudFormation to start up a machine with your SecretStash u/p as parameters in your CF script (or entered at deploytime). Then, during your initial bootstrapping (userdata in CF):
 ```
@@ -142,7 +146,7 @@ curl -X GET -H 'Authorization: Token 0fcb68b99bd66737d0b9fb1e23913c202dab56f6' -
 
 TODO
 ============
-
+More tests -- make sure error messages work
 Encrypted backend by default?  
 Audit trail?  
 Chef cookbook for setup  
