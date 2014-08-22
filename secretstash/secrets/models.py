@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User,Group
 from guardian.shortcuts import assign_perm,remove_perm
 from django.contrib.auth import get_user_model
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save,post_syncdb
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 import random,string
