@@ -62,3 +62,5 @@ DEBUG_TOOLBAR_PATCH_SETTINGS = False
 # http://django-debug-toolbar.readthedocs.org/en/latest/installation.html
 INTERNAL_IPS = ('127.0.0.1',)
 ########## END TOOLBAR CONFIGURATION
+ENCRYPTED_FIELDS_KEYDIR = '/opt/kz'
+
