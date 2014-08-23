@@ -22,7 +22,9 @@ python manage.py schemamigration secrets --initial --settings secretstash.settin
 python manage.py migrate secrets --fake --settings secretstash.settings.local
 python manage.py migrate secrets --settings secretstash.settings.local
 
-python manage.py createsuperuser --settings secretstash.settings.local
+python manage.py migrate --settings secretstash.settings.local
+
+python manage.py createsuperuser --settings secretstash.settings.local --email='test@test.com' --username='admin'
 python manage.py runserver --settings secretstash.settings.local
 ```
 
@@ -152,3 +154,4 @@ Audit trail?
 Chef cookbook for setup  
 Ansible playbook for setup  
 Library for ease-of-use
+

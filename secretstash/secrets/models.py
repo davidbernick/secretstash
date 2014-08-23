@@ -2,10 +2,11 @@ from django.db import models
 from django.contrib.auth.models import User,Group
 from guardian.shortcuts import assign_perm,remove_perm
 from django.contrib.auth import get_user_model
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save,post_syncdb
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 import random,string
+from encrypted_fields import EncryptedTextField
 
 def id_generator(size=18, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
@@ -42,7 +43,7 @@ class Host(models.Model):
 class Secret(models.Model):
     name = models.CharField(max_length=100,blank=True,null=True,unique=True)
     description = models.CharField(max_length=100,blank=True,null=True)
-    content = models.TextField()
+    content = EncryptedTextField()
     owner = models.ForeignKey(User)
 
     def __unicode__(self):
