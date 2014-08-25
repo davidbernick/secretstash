@@ -10,3 +10,4 @@ django-filter
 south
 django-debug-toolbar
 django-encrypted-fields
+MySQL-python
