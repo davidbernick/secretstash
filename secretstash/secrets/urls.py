@@ -14,7 +14,7 @@ urlpatterns = patterns(
                        'secrets.views',
                        url(r'^logout/$', views.logout, {'next_page':'/secrets/'},name='logout'),
                        url(r'^$', 'secret_index', {'template_name':'signin.html'}, name='secret_index'),
-                       url(r'^usergroup/(?P<user>\w+)/$', UserGroup.as_view()),                                              
+                       url(r'^usergroup/(?P<user>.*)/$', UserGroup.as_view()),                                              
                        url(r'^api/', include(router.urls)),
 )
 
