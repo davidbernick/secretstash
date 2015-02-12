@@ -64,6 +64,8 @@ class UserGroup(APIView):
             if action=="add":
                 try:
                     g = Group.objects.get(name=group)
+                    if not request.user.has_perm('auth.change_group',g):
+                     return HttpResponseForbidden()
                     user.groups.add(g)
                 except Exception,e:
                     return Response({"error":str(e)}, status=status.HTTP_400_BAD_REQUEST)
@@ -71,6 +73,8 @@ class UserGroup(APIView):
             elif action=="delete":
                 try:
                     g = Group.objects.get(name=group)
+                    if not request.user.has_perm('auth.change_group',g):
+                     return HttpResponseForbidden()
                     user.groups.remove(g)
                 except Exception,e:
                     return Response({"error":str(e)}, status=status.HTTP_400_BAD_REQUEST)

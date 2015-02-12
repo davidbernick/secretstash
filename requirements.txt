@@ -1,9 +1,9 @@
-django
+django<=1.6.6
 django-guardian
 boto
 django-social-auth
 django-bootstrap3
-djangorestframework
+djangorestframework<=2.4
 drf-compound-fields
 markdown
 django-filter
@@ -11,3 +11,4 @@ south
 django-debug-toolbar
 django-encrypted-fields
 MySQL-python
+django-reversion<=1.8

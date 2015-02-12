@@ -28,7 +28,12 @@ python manage.py createsuperuser --settings secretstash.settings.local --email='
 python manage.py runserver --settings secretstash.settings.local
 ```
 
-Then in the django admin (http://host:port/admin), add some users and some groups. You can also add users through the oauth system.
+Then in the django admin (http://host:port/admin), add some users and some groups. You can also add users through the oauth system.  
+
+It is also advantageous to add Object Permissions to Groups to allow only specific group membership to add Hosts to specific groups of secrets. For instance, if you intend to have a bunch of secrets in a group called SecretGroup, you should give specific users or groups of users permissions to "Change Group" to allow them to add hosts to that group. This means you can add a user that can launch machines, but only machines that can access the specific secrets in the specific group they are allowed.  
+
+In the admin interface, click on a Group, click "object permissions", click "manage group" to allow specic groups to have "Change Group" access so they can add Hosts to this group. This means that not all users need to be superusers.
+
 
 Some commands to run
 ===========
