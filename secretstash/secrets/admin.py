@@ -10,9 +10,5 @@ class SecretAdmin(GuardedModelAdmin):
 class HostAdmin(GuardedModelAdmin):
     pass
 
-class GroupAdmin(GuardedModelAdmin):
-    pass
-
 admin.site.register(Secret,SecretAdmin)
 admin.site.register(Host,HostAdmin)
-admin.site.register(Group,GroupAdmin)
